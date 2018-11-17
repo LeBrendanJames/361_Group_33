@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="voteStyle.css" rel="stylesheet" type="text/css">
+    <title>Vote Now</title>
+  </head>
+  <body>
+    <div class="header"><h1>Vote Your Way</h1></div>
+    <table>
+      <tr>
+        <td><div class="sidebar">
+
+	  <!-- Clicking on the dot or label will take the user to the vote -->
+	  <!-- The dots will change color depending on whether a vote has been cast for that item -->
+	  <br><!-- {{#each ballotItem}} -->
+	    <span class="dot" onclick="" id="{{ballotItem.id}}"></span>
+	    <label for="{{ballotItem.id}}">{{ballotItem.name}}</label><br>
+	  <!-- {{/each}} -->
+
+        </div></td>
+        <td>
+	  <!-- The info box which tells the user about the vote -->
+          <div class="info-box">Item {{id}}: {{description}}</div>
+
+          <!-- Clicking the box calls a javascript function which changes -->
+	  <!-- the look of the vote and stores the selected option -->
+          <!-- {{#each option}} -->
+          <div class="vote-item" onclick="chooseVote(0)">
+	    <strong>Bob Ross</strong> Dempublican
+	  </div>
+          <div class="vote-item" onclick="chooseVote(1)">
+	    <strong>Superman</strong> Republicrat
+	  </div>
+          <div class="vote-item" onclick="chooseVote(2)">
+	    <strong>Mister Rogers</strong> Independent
+	  </div>
+          <!-- {{/each}} -->
+          <button>Previous</button>
+          <button>Next</button>
+          <button>Save and Log Out</button>
+        </td>
+      </tr>
+    </table>
+    <script src="voteScript.js"></script>
+  </body>
+</html>
