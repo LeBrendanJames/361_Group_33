@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="voteStyle.css" rel="stylesheet" type="text/css">
+    <title>Vote Now</title>
+  </head>
+  <body>
+    <div class="header"><h1>Vote Your Way</h1></div>
+    <table>
+      <tr>
+        <td><div class="sidebar">
+
+	  <!-- Clicking on the dot or label will take the user to the vote -->
+	  <!-- The dots will change color depending on whether a vote has been cast for that item -->
+	  <br><!-- {{#each ballotItem}} -->
+	    <span class="dot" onclick="" id="{{ballotItem.id}}"></span>
+	    <label for="{{ballotItem.id}}">{{ballotItem.name}}</label><br>
+	  <!-- {{/each}} -->
+
+        </div></td>
+        <td>
+	<H2> BALLOT SUBMISSION PAGE</H2>
+  <p> You are about to submit your ballot. Please check the sidebar to ensure you have responded to all intended questions. </p>
+  <p> Once you submit, you cannot return to the ballot. You will receive a confirmation email indicating the submission was successful.</p>
+  <div class="g-recaptcha" data-sitekey="6Le6QXwUAAAAALh9k3J8PEQRCXqYz1M05X3pL3JO"></div>
+
+
+          <button>Submit</button>
+        </td>
+      </tr>
+    </table>
+    <script src="script.js"></script>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
+  </body>
+</html>
