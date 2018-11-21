@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS `tblVoterToElection`;
 DROP TABLE IF EXISTS `tblResponse`;
 DROP TABLE IF EXISTS `tblQuestion`;
 DROP TABLE IF EXISTS `tblElection`;
+DROP TABLE IF EXISTS `tblUserLogin`;
 DROP TABLE IF EXISTS `tblVoter`;
 
 
@@ -11,6 +12,14 @@ CREATE TABLE tblVoter (
   firstName VARCHAR(255) NOT NULL,
   lastName VARCHAR(255) NOT NULL,
   PRIMARY KEY  (voterPK)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE tblUserLogin (
+  voterFK SMALLINT UNSIGNED NOT NULL,
+  username VARCHAR(1000) NOT NULL,
+  pwd VARCHAR(65) NOT NULL,
+  CONSTRAINT fk_userlogin_to_voter FOREIGN KEY (voterFK) REFERENCES tblVoter (voterPK) ON DELETE RESTRICT ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -56,7 +65,8 @@ CREATE TABLE tblResponse (
 CREATE TABLE tblVoterToResponse (
   voterFK SMALLINT UNSIGNED NOT NULL,
   questionFK SMALLINT UNSIGNED NOT NULL,
-  responseFK SMALLINT UNSIGNED NOT NULL,
+  responseFK SMALLINT UNSIGNED,
+  writeInResponse VARCHAR(1000),
   CONSTRAINT fk_vtr_to_voter FOREIGN KEY (questionFK) REFERENCES tblQuestion (questionPK) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT fk_vtr_to_response FOREIGN KEY (questionFK) REFERENCES tblQuestion (questionPK) ON DELETE RESTRICT ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -67,6 +77,11 @@ INSERT INTO tblVoter (firstName, lastName)
   ('John', 'Smith'),
   ('Jane', 'Dover'),
   ('Matt', 'McGorp');
+
+
+INSERT INTO tblUserLogin (voterFK, username, pwd)
+  VALUES 
+  ((SELECT voterPK FROM tblVoter WHERE firstName = 'Matt' AND lastName = 'McGorp'), 'matt', '472c3c13b550b7064153d4a407051068b4201cd51c323e9900d62a6740b84f1a');
 
 
 INSERT INTO tblElection(name)
