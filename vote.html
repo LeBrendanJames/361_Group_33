@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="voteStyle.css" rel="stylesheet" type="text/css">
+    <title>Vote Now</title>
+  </head>
+  <body>
+    <div class="header"><h1>Vote Your Way</h1></div>
+    <div class="sidebar">
+      <!-- Clicking on the dot or label will take the user to the vote -->
+      <!-- The dots will change color depending on whether a vote has been cast for that item -->
+      <br><!-- {{#each ballotItem}} -->
+	<span class="dot voted-true" onclick="" id="{{ballotItem.id}}"></span>
+	<a href="localhost/vote.html?item={{ballotItem.id}}">Governor</a><br>
+	<span class="dot voted-false" onclick="" id="{{ballotItem.id}}"></span>
+	<a href="localhost/vote.html?item={{ballotItem.id}}">Senator</a><br>
+	<span class="dot voted-true" onclick="" id="{{ballotItem.id}}"></span>
+	<a href="localhost/vote.html?item={{ballotItem.id}}">3rd District Representative</a><br>
+	<span class="dot voted-false" onclick="" id="{{ballotItem.id}}"></span>
+	<a href="localhost/vote.html?item={{ballotItem.id}}">Measure 999</a><br>
+	<span class="dot voted-{{ballotItem.voted}}" onclick="" id="{{ballotItem.id}}"></span>
+	<a href="localhost/vote.html?item={{ballotItem.id}}">{{ballotItem.name}}</a><br>
+      <!-- {{/each}} -->
+    </div>
+    <div class="main-content">
+      <!-- The info box which tells the user about the vote -->
+      <div class="info-box">Item {{id}}: {{description}}</div>
+      <!-- Clicking the box calls a javascript function which changes -->
+      <!-- the look of the vote and stores the selected option -->
+      <!-- {{#each option}} -->
+      <div class="vote-item" onclick="chooseVote(0)">
+	<strong>Bob Ross</strong> Dempublican
+      </div>
+      <div class="vote-item" onclick="chooseVote(1)">
+	<strong>Superman</strong> Republicrat
+      </div>
+      <div class="vote-item" onclick="chooseVote(2)">
+	<strong>Mister Rogers</strong> Independent
+      </div>
+      <div class="vote-item" onclick="chooseVote({{option.id}})">
+	<strong>{{option.name}}</strong> {{option.party}}
+      </div>
+      <!-- {{/each}} -->
+      <button>Previous</button>
+      <button>Next</button>
+      <button>Save and Log Out</button>
+    </div>
+    <script src="voteScript.js"></script>
+  </body>
+</html>

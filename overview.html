@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="voteStyle.css" rel="stylesheet" type="text/css">
+    <title>Your Upcoming Ballot</title>
+  </head>
+  <body>
+    <div class="header"><h1>Vote Your Way</h1></div>
+    <div class="sidebar">
+      <!-- Clicking on the dot or label will take the user to the vote -->
+      <!-- The dots will change color depending on whether a vote has been cast for that item -->
+      <ul><!-- {{#each ballotItem}} -->
+	<li><a href="localhost/vote.html?item={{ballotItem.id}}">Governor</a><br>
+	<li><a href="localhost/vote.html?item={{ballotItem.id}}">Senator</a><br>
+	<li><a href="localhost/vote.html?item={{ballotItem.id}}">3rd District Representative</a><br>
+	<li><a href="localhost/vote.html?item={{ballotItem.id}}">Measure 999</a><br>
+	<li><a href="localhost/vote.html?item={{ballotItem.id}}">{{ballotItem.name}}</a><br>
+      <!-- {{/each}} --></ul>
+    </div>
+    <div class="main-content">
+      <!-- The info box which tells the user about the vote -->
+      <div class="info-box">Item {{id}}: {{description}}</div>
+      <!-- Clicking the box calls a javascript function which changes -->
+      <!-- the look of the vote and stores the selected option -->
+      <!-- {{#each option}} -->
+      <div class="vote-item">
+	<strong>Bob Ross</strong> Dempublican
+        <a href="https://www.bobross.com/">Official website</a>
+      </div>
+      <div class="vote-item">
+	<strong>Superman</strong> Republicrat
+        <a href="https://www.supermanhomepage.com/">Official website</a>
+      </div>
+      <div class="vote-item">
+	<strong>Mister Rogers</strong> Independent
+        <a href="https://www.fredrogers.org/">Official website</a>
+      </div>
+      <div class="vote-item">
+	<strong>{{option.name}}</strong> {{option.party}}
+        <a href="{{option.website}}">Official website</a>
+      </div>
+      <!-- {{/each}} -->
+      <button>Previous</button>
+      <button>Next</button>
+    </div>
+  </body>
+</html>
