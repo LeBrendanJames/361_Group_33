@@ -13,6 +13,7 @@ CREATE TABLE tblVoter (
   firstName VARCHAR(255) NOT NULL,
   lastName VARCHAR(255) NOT NULL,
   PRIMARY KEY  (voterPK)
+  -- TO DO: UNIQUE CONSTRAINT voterID
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -21,6 +22,7 @@ CREATE TABLE tblUserLogin (
   username VARCHAR(1000) NOT NULL,
   pwd VARCHAR(65) NOT NULL,
   CONSTRAINT fk_userlogin_to_voter FOREIGN KEY (voterFK) REFERENCES tblVoter (voterPK) ON DELETE RESTRICT ON UPDATE CASCADE
+  -- TO DO: UNIQUE CONSTRAINT username
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -31,6 +33,7 @@ CREATE TABLE tblElection (
   -- TO DO: Start Date
   -- TO DO: End Date
   PRIMARY KEY  (electionPK)
+  -- TO DO: UNIQUE CONSTRAINT electionID
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -40,6 +43,7 @@ CREATE TABLE tblVoterToElection (
   submissionStatus SMALLINT UNSIGNED NOT NULL,
   CONSTRAINT fk_vte_to_voter FOREIGN KEY (voterFK) REFERENCES tblVoter (voterPK) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT fk_vte_to_election FOREIGN KEY (electionFK) REFERENCES tblElection (electionPK) ON DELETE RESTRICT ON UPDATE CASCADE
+  -- TO DO: UNIQUE CONSTRAINT voterFK / electionFK
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -52,6 +56,7 @@ CREATE TABLE tblQuestion (
   questionURL VARCHAR(1000),
   PRIMARY KEY (questionPK),
   CONSTRAINT fk_question_to_election FOREIGN KEY (electionFK) REFERENCES tblElection (electionPK) ON DELETE RESTRICT ON UPDATE CASCADE
+  -- TO DO: UNIQUE CONSTRAINT questionID
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -63,6 +68,7 @@ CREATE TABLE tblResponse (
   responseSubTitle VARCHAR(10000),
   PRIMARY KEY (responsePK),
   CONSTRAINT fk_response_to_question FOREIGN KEY (questionFK) REFERENCES tblQuestion (questionPK) ON DELETE RESTRICT ON UPDATE CASCADE
+  -- TO DO: UNIQUE CONSTRAINT responseID
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -73,6 +79,7 @@ CREATE TABLE tblVoterToResponse (
   writeInResponse VARCHAR(1000),
   CONSTRAINT fk_vtr_to_voter FOREIGN KEY (questionFK) REFERENCES tblQuestion (questionPK) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT fk_vtr_to_response FOREIGN KEY (questionFK) REFERENCES tblQuestion (questionPK) ON DELETE RESTRICT ON UPDATE CASCADE
+  -- TO DO: UNIQUE CONSTRAINT voterFK / responseFK
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
