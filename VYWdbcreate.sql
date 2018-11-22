@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS `tblVoter`;
 
 CREATE TABLE tblVoter (
   voterPK SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  voterID VARCHAR(255) NOT NULL,
   firstName VARCHAR(255) NOT NULL,
   lastName VARCHAR(255) NOT NULL,
   PRIMARY KEY  (voterPK)
@@ -25,6 +26,7 @@ CREATE TABLE tblUserLogin (
 
 CREATE TABLE tblElection (
   electionPK SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  electionID VARCHAR(255) NOT NULL,
   name VARCHAR(255) NOT NULL,
   -- TO DO: Start Date
   -- TO DO: End Date
@@ -43,6 +45,7 @@ CREATE TABLE tblVoterToElection (
 
 CREATE TABLE tblQuestion (
   questionPK SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  questionID VARCHAR(255) NOT NULL,
   electionFK SMALLINT UNSIGNED NOT NULL,
   questionTitle VARCHAR(1000) NOT NULL,
   questionSubTitle VARCHAR(10000),
@@ -54,6 +57,7 @@ CREATE TABLE tblQuestion (
 
 CREATE TABLE tblResponse (
   responsePK SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  responseID VARCHAR(255) NOT NULL,
   questionFK SMALLINT UNSIGNED NOT NULL,
   responseTitle VARCHAR(1000) NOT NULL,
   responseSubTitle VARCHAR(10000),
@@ -72,38 +76,38 @@ CREATE TABLE tblVoterToResponse (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-INSERT INTO tblVoter (firstName, lastName)
+INSERT INTO tblVoter (voterID, firstName, lastName)
   VALUES 
-  ('John', 'Smith'),
-  ('Jane', 'Dover'),
-  ('Matt', 'McGorp');
+  ('12345ABCDE', 'John', 'Smith'),
+  ('X5125GST42', 'Jane', 'Dover'),
+  ('HDFH1351FG', 'Matt', 'McGorp');
 
 
 INSERT INTO tblUserLogin (voterFK, username, pwd)
   VALUES 
-  ((SELECT voterPK FROM tblVoter WHERE firstName = 'Matt' AND lastName = 'McGorp'), 'matt', '472c3c13b550b7064153d4a407051068b4201cd51c323e9900d62a6740b84f1a');
+  ((SELECT voterPK FROM tblVoter WHERE voterID = 'HDFH1351FG'), 'matt', '472c3c13b550b7064153d4a407051068b4201cd51c323e9900d62a6740b84f1a');
 
 
-INSERT INTO tblElection(name)
+INSERT INTO tblElection(electionID, name)
   VALUES 
-  ('2018 Mid-Term Election'),
-  ('2020 Presidential Election'),
-  ('2022 Mid-Term Election');
+  ('2018MIDTERM', '2018 Mid-Term Election'),
+  ('2020PRES', '2020 Presidential Election'),
+  ('2022MIDTERM', '2022 Mid-Term Election');
 
 
-INSERT INTO tblQuestion (electionFK, questionTitle, questionSubTitle, questionURL)
+INSERT INTO tblQuestion (questionID, electionFK, questionTitle, questionSubTitle, questionURL)
   VALUES
-  ((SELECT electionPK FROM tblElection WHERE name = '2020 Presidential Election'), 'United States Senator\n(Vote for 1)', NULL, 'www.ballotpedia.com'),
-  ((SELECT electionPK FROM tblElection WHERE name = '2020 Presidential Election'), 'Representative in Congress\nDistrict 3\n(Vote for 1)', NULL, 'www.ballotpedia.com'),
-  ((SELECT electionPK FROM tblElection WHERE name = '2020 Presidential Election'), 'No. 9 Constitutional Revision Article II, Section 7, Article X, Section 20', 'Prohibits drilling for the exploration of oil and natrual gas beneath all state-owned waters between the mean high water line and the states outermost territorial boundaries. Adds use of vapor-generating electronic devices to current prohibition of tobacco smoking in enclosed indoor workplaces with exceptions; permits more restrictive local vapor ordinances.', 'www.ballotpedia.com');
+  ('2018MID_Q1', (SELECT electionPK FROM tblElection WHERE electionID = '2018MIDTERM'), 'United States Senator\n(Vote for 1)', NULL, 'www.ballotpedia.com'),
+  ('2018MID_Q2', (SELECT electionPK FROM tblElection WHERE electionID = '2018MIDTERM'), 'Representative in Congress\nDistrict 3\n(Vote for 1)', NULL, 'www.ballotpedia.com'),
+  ('2018MID_Q3', (SELECT electionPK FROM tblElection WHERE electionID = '2018MIDTERM'), 'No. 9 Constitutional Revision Article II, Section 7, Article X, Section 20', 'Prohibits drilling for the exploration of oil and natrual gas beneath all state-owned waters between the mean high water line and the states outermost territorial boundaries. Adds use of vapor-generating electronic devices to current prohibition of tobacco smoking in enclosed indoor workplaces with exceptions; permits more restrictive local vapor ordinances.', 'www.ballotpedia.com');
 
 
-INSERT INTO tblResponse (questionFK, responseTitle, responseSubTitle)
+INSERT INTO tblResponse (responseID, questionFK, responseTitle, responseSubTitle)
   VALUES
-  ((SELECT questionPK from tblQuestion WHERE questionTitle = 'United States Senator\n(Vote for 1)'), 'Bob Ross', NULL),
-  ((SELECT questionPK from tblQuestion WHERE questionTitle = 'United States Senator\n(Vote for 1)'), 'Mr. Rogers', NULL),
-  ((SELECT questionPK from tblQuestion WHERE questionTitle = 'Representative in Congress\nDistrict 3\n(Vote for 1)'), 'Elvis Presely', NULL),
-  ((SELECT questionPK from tblQuestion WHERE questionTitle = 'Representative in Congress\nDistrict 3\n(Vote for 1)'), 'Homer Simpson', NULL),
-  ((SELECT questionPK from tblQuestion WHERE questionTitle = 'No. 9 Constitutional Revision Article II, Section 7, Article X, Section 20'), 'Yes', 'For the prohibition'),
-  ((SELECT questionPK from tblQuestion WHERE questionTitle = 'No. 9 Constitutional Revision Article II, Section 7, Article X, Section 20'), 'No', 'Against the prohibition');
+  ('2018MID_Q1R1', (SELECT questionPK from tblQuestion WHERE questionID = '2018MID_Q1'), 'Bob Ross', NULL),
+  ('2018MID_Q1R2', (SELECT questionPK from tblQuestion WHERE questionID = '2018MID_Q1'), 'Mr. Rogers', NULL),
+  ('2018MID_Q2R1', (SELECT questionPK from tblQuestion WHERE questionID = '2018MID_Q2'), 'Elvis Presely', NULL),
+  ('2018MID_Q2R2', (SELECT questionPK from tblQuestion WHERE questionID = '2018MID_Q2'), 'Homer Simpson', NULL),
+  ('2018MID_Q3R1', (SELECT questionPK from tblQuestion WHERE questionID = '2018MID_Q3'), 'Yes', 'For the prohibition'),
+  ('2018MID_Q3R2', (SELECT questionPK from tblQuestion WHERE questionID = '2018MID_Q3'), 'No', 'Against the prohibition');
 
