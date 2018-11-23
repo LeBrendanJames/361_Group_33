@@ -17,14 +17,14 @@
         </div></td>
         <td>
 
-          <form action="#">
+          <form id="login" method="post" name = "login">
             <fieldset>
               <legend> Login information</legend>
-            User id: <br>
-            <input type="text" name="userID"><br>
-            Pin: <br>
-            <input type="text" name="pin"><br>
-            <input type="submit" value="Submit">
+            <lable> User id: <br></label>
+            <input type="text" name="userID" id = "userID"><br>
+            <label>Pin: <br></label>
+            <input type="password" name="pin" id="pin"><br>
+            <input type="button" value="Submit" id="submit" onclick="validate()"/>
           </fieldset>
           </form>
 
@@ -35,5 +35,6 @@
       <p><a href="#">About</a></p>
       <p>&#169; Vote Your Way </p>
     <script src="script.js"></script>
+    <script src="login.js"></script>
   </body>
 </html>
