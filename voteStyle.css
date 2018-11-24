@@ -94,3 +94,18 @@ button:hover {
 .dot:hover {
   background-color: yellow;
 }
+
+.homeLink {
+	border-style: solid;
+	border-width: 1px;
+	border-color: black;
+	background-color: LightYellow;
+	padding: 20px;
+	margin: 20px;
+}
+
+.homePage {
+  margin: auto;
+	width: 50%;
+	text-align: center;
+}
