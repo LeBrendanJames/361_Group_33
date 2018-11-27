@@ -67,7 +67,7 @@ CREATE TABLE tblResponse (
   responseTitle VARCHAR(1000) NOT NULL,
   responseSubTitle VARCHAR(10000),
   PRIMARY KEY (responsePK),
-  CONSTRAINT fk_response_to_question FOREIGN KEY (questionFK) REFERENCES tblQuestion (questionPK) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT fk_response_to_question FOREIGN KEY (questionFK) REFERENCES tblQuestion (questionPK) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT unique_responseID UNIQUE(responseID)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
