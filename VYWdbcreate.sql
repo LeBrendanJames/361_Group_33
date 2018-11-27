@@ -12,8 +12,8 @@ CREATE TABLE tblVoter (
   voterID VARCHAR(255) NOT NULL,
   firstName VARCHAR(255) NOT NULL,
   lastName VARCHAR(255) NOT NULL,
-  PRIMARY KEY  (voterPK)
-  -- TO DO: UNIQUE CONSTRAINT voterID
+  PRIMARY KEY  (voterPK),
+  CONSTRAINT unique_voterID UNIQUE(voterID)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -21,8 +21,8 @@ CREATE TABLE tblUserLogin (
   voterFK SMALLINT UNSIGNED NOT NULL,
   username VARCHAR(1000) NOT NULL,
   pwd VARCHAR(65) NOT NULL,
-  CONSTRAINT fk_userlogin_to_voter FOREIGN KEY (voterFK) REFERENCES tblVoter (voterPK) ON DELETE RESTRICT ON UPDATE CASCADE
-  -- TO DO: UNIQUE CONSTRAINT username
+  CONSTRAINT fk_userlogin_to_voter FOREIGN KEY (voterFK) REFERENCES tblVoter (voterPK) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT unique_username UNIQUE(username)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -30,10 +30,10 @@ CREATE TABLE tblElection (
   electionPK SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   electionID VARCHAR(255) NOT NULL,
   name VARCHAR(255) NOT NULL,
-  -- TO DO: Start Date
-  -- TO DO: End Date
-  PRIMARY KEY  (electionPK)
-  -- TO DO: UNIQUE CONSTRAINT electionID
+  startDate DATE NOT NULL,
+  endDate DATE NOT NULL,
+  PRIMARY KEY  (electionPK),
+  CONSTRAINT unique_electionID UNIQUE(electionID)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -42,8 +42,8 @@ CREATE TABLE tblVoterToElection (
   electionFK SMALLINT UNSIGNED NOT NULL,
   submissionStatus SMALLINT UNSIGNED NOT NULL,
   CONSTRAINT fk_vte_to_voter FOREIGN KEY (voterFK) REFERENCES tblVoter (voterPK) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT fk_vte_to_election FOREIGN KEY (electionFK) REFERENCES tblElection (electionPK) ON DELETE RESTRICT ON UPDATE CASCADE
-  -- TO DO: UNIQUE CONSTRAINT voterFK / electionFK
+  CONSTRAINT fk_vte_to_election FOREIGN KEY (electionFK) REFERENCES tblElection (electionPK) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT unique_voter_election UNIQUE(voterFK, electionFK)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -55,8 +55,8 @@ CREATE TABLE tblQuestion (
   questionSubTitle VARCHAR(10000),
   questionURL VARCHAR(1000),
   PRIMARY KEY (questionPK),
-  CONSTRAINT fk_question_to_election FOREIGN KEY (electionFK) REFERENCES tblElection (electionPK) ON DELETE RESTRICT ON UPDATE CASCADE
-  -- TO DO: UNIQUE CONSTRAINT questionID
+  CONSTRAINT fk_question_to_election FOREIGN KEY (electionFK) REFERENCES tblElection (electionPK) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT unique_questionID UNIQUE(questionID)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -68,7 +68,7 @@ CREATE TABLE tblResponse (
   responseSubTitle VARCHAR(10000),
   PRIMARY KEY (responsePK),
   CONSTRAINT fk_response_to_question FOREIGN KEY (questionFK) REFERENCES tblQuestion (questionPK) ON DELETE RESTRICT ON UPDATE CASCADE
-  -- TO DO: UNIQUE CONSTRAINT responseID
+  CONSTRAINT unique_responseID UNIQUE(responseID)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -78,8 +78,8 @@ CREATE TABLE tblVoterToResponse (
   responseFK SMALLINT UNSIGNED,
   writeInResponse VARCHAR(1000),
   CONSTRAINT fk_vtr_to_voter FOREIGN KEY (questionFK) REFERENCES tblQuestion (questionPK) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT fk_vtr_to_response FOREIGN KEY (questionFK) REFERENCES tblQuestion (questionPK) ON DELETE RESTRICT ON UPDATE CASCADE
-  -- TO DO: UNIQUE CONSTRAINT voterFK / responseFK
+  CONSTRAINT fk_vtr_to_response FOREIGN KEY (questionFK) REFERENCES tblQuestion (questionPK) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT unique_voter_question UNIQUE(voterFK, questionFK)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -95,11 +95,11 @@ INSERT INTO tblUserLogin (voterFK, username, pwd)
   ((SELECT voterPK FROM tblVoter WHERE voterID = 'HDFH1351FG'), 'matt', '472c3c13b550b7064153d4a407051068b4201cd51c323e9900d62a6740b84f1a');
 
 
-INSERT INTO tblElection(electionID, name)
+INSERT INTO tblElection(electionID, name, startDate, endDate)
   VALUES 
-  ('2018MIDTERM', '2018 Mid-Term Election'),
-  ('2020PRES', '2020 Presidential Election'),
-  ('2022MIDTERM', '2022 Mid-Term Election');
+  ('2018MIDTERM', '2018 Mid-Term Election', '2018-10-25', '2018-11-6'),
+  ('2020PRES', '2020 Presidential Election' '2020-10-25', '2020-11-6'),
+  ('2022MIDTERM', '2022 Mid-Term Election' '2022-10-25', '2022-11-6');
 
 
 INSERT INTO tblQuestion (questionID, electionFK, questionTitle, questionSubTitle, questionURL)
