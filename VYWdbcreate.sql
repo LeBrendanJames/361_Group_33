@@ -92,13 +92,14 @@ INSERT INTO tblVoter (voterID, firstName, lastName)
 
 INSERT INTO tblUserLogin (voterFK, username, pwd)
   VALUES 
-  ((SELECT voterPK FROM tblVoter WHERE voterID = 'HDFH1351FG'), 'matt', '472c3c13b550b7064153d4a407051068b4201cd51c323e9900d62a6740b84f1a');
+  ((SELECT voterPK FROM tblVoter WHERE voterID = 'HDFH1351FG'), 'matt', '472c3c13b550b7064153d4a407051068b4201cd51c323e9900d62a6740b84f1a'),
+  ((SELECT voterPK FROM tblVoter WHERE voterID = 'X5125GST42'), 'jane', '472c3c13b550b7064153d4a407051068b4201cd51c323e9900d62a6740b84f1a');
 
 
 INSERT INTO tblElection(electionID, name, startDate, endDate)
   VALUES 
   ('2018MIDTERM', '2018 Mid-Term Election', '2018-10-25', '2018-11-06'),
-  ('2020PRES', '2020 Presidential Election', '2020-10-25', '2020-11-06'),
+  ('2020PRES', '2020 Presidential Election', '2018-10-25', '2020-11-06'),
   ('2022MIDTERM', '2022 Mid-Term Election', '2022-10-25', '2022-11-06');
 
 
@@ -118,3 +119,8 @@ INSERT INTO tblResponse (responseID, questionFK, responseTitle, responseSubTitle
   ('2018MID_Q3R1', (SELECT questionPK from tblQuestion WHERE questionID = '2018MID_Q3'), 'Yes', 'For the prohibition'),
   ('2018MID_Q3R2', (SELECT questionPK from tblQuestion WHERE questionID = '2018MID_Q3'), 'No', 'Against the prohibition');
 
+
+INSERT INTO tblVoterToElection (voterFK, electionFK, submissionStatus)
+  VALUES
+  ((SELECT voterPK FROM tblVoter WHERE voterID = 'HDFH1351FG'), (SELECT electionPK FROM tblElection WHERE electionID = '2018MIDTERM'), 3),
+  ((SELECT voterPK FROM tblVoter WHERE voterID = 'X5125GST42'), (SELECT electionPK FROM tblElection WHERE electionID = '2018MIDTERM'), 3);
