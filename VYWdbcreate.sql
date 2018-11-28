@@ -19,7 +19,7 @@ CREATE TABLE tblVoter (
 
 CREATE TABLE tblUserLogin (
   voterFK SMALLINT UNSIGNED NOT NULL,
-  username VARCHAR(1000) NOT NULL,
+  username VARCHAR(255) NOT NULL,
   pwd VARCHAR(65) NOT NULL,
   CONSTRAINT fk_userlogin_to_voter FOREIGN KEY (voterFK) REFERENCES tblVoter (voterPK) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT unique_username UNIQUE(username)
@@ -97,9 +97,9 @@ INSERT INTO tblUserLogin (voterFK, username, pwd)
 
 INSERT INTO tblElection(electionID, name, startDate, endDate)
   VALUES 
-  ('2018MIDTERM', '2018 Mid-Term Election', '2018-10-25', '2018-11-6'),
-  ('2020PRES', '2020 Presidential Election' '2020-10-25', '2020-11-6'),
-  ('2022MIDTERM', '2022 Mid-Term Election' '2022-10-25', '2022-11-6');
+  ('2018MIDTERM', '2018 Mid-Term Election', '2018-10-25', '2018-11-06'),
+  ('2020PRES', '2020 Presidential Election', '2020-10-25', '2020-11-06'),
+  ('2022MIDTERM', '2022 Mid-Term Election', '2022-10-25', '2022-11-06');
 
 
 INSERT INTO tblQuestion (questionID, electionFK, questionTitle, questionSubTitle, questionURL)
