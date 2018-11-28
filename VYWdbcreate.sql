@@ -107,7 +107,7 @@ INSERT INTO tblQuestion (questionID, electionFK, questionTitle, questionSubTitle
   VALUES
   ('2018MID_Q1', (SELECT electionPK FROM tblElection WHERE electionID = '2018MIDTERM'), 'United States Senator\n(Vote for 1)', NULL, 'www.ballotpedia.com'),
   ('2018MID_Q2', (SELECT electionPK FROM tblElection WHERE electionID = '2018MIDTERM'), 'Representative in Congress\nDistrict 3\n(Vote for 1)', NULL, 'www.ballotpedia.com'),
-  ('2018MID_Q3', (SELECT electionPK FROM tblElection WHERE electionID = '2018MIDTERM'), 'No. 9 Constitutional Revision Article II, Section 7, Article X, Section 20', 'Prohibits drilling for the exploration of oil and natrual gas beneath all state-owned waters between the mean high water line and the states outermost territorial boundaries. Adds use of vapor-generating electronic devices to current prohibition of tobacco smoking in enclosed indoor workplaces with exceptions; permits more restrictive local vapor ordinances.', 'www.ballotpedia.com');
+  ('2018MID_Q3', (SELECT electionPK FROM tblElection WHERE electionID = '2018MIDTERM'), 'No. 9 Constitutional Revision Article II, Section 7, Article X, Section 20', 'Prohibits drilling for the exploration of oil and natrual gas beneath all state-owned waters between the mean high water line and the states outermost territorial boundaries. Adds use of vapor-generating electronic devices to current prohibition of tobacco smoking in enclosed indoor workplaces with exceptions; permits more restrictive local vapor ordinances.', 'www.ballotpedia.com'),
   ('2020PRES_Q1', (SELECT electionPK FROM tblElection WHERE electionID = '2020PRES'), 'President of the United States\n(Vote for 1)', NULL, 'www.ballotpedia.com'),
   ('2020PRES_Q2', (SELECT electionPK FROM tblElection WHERE electionID = '2020PRES'), 'Representative in Congress\nDistrict 3\n(Vote for 1)', NULL, 'www.ballotpedia.com'),
   ('2020PRES_Q3', (SELECT electionPK FROM tblElection WHERE electionID = '2020PRES'), 'No. 9 Constitutional Revision Article II, Section 7, Article X, Section 20', 'Prohibits drilling for the exploration of oil and natrual gas beneath all state-owned waters between the mean high water line and the states outermost territorial boundaries. Adds use of vapor-generating electronic devices to current prohibition of tobacco smoking in enclosed indoor workplaces with exceptions; permits more restrictive local vapor ordinances.', 'www.ballotpedia.com');
@@ -120,7 +120,7 @@ INSERT INTO tblResponse (responseID, questionFK, responseTitle, responseSubTitle
   ('2018MID_Q2R1', (SELECT questionPK from tblQuestion WHERE questionID = '2018MID_Q2'), 'Elvis Presely', NULL),
   ('2018MID_Q2R2', (SELECT questionPK from tblQuestion WHERE questionID = '2018MID_Q2'), 'Homer Simpson', NULL),
   ('2018MID_Q3R1', (SELECT questionPK from tblQuestion WHERE questionID = '2018MID_Q3'), 'Yes', 'For the prohibition'),
-  ('2018MID_Q3R2', (SELECT questionPK from tblQuestion WHERE questionID = '2018MID_Q3'), 'No', 'Against the prohibition');
+  ('2018MID_Q3R2', (SELECT questionPK from tblQuestion WHERE questionID = '2018MID_Q3'), 'No', 'Against the prohibition'),
   ('2020PRES_Q1R1', (SELECT questionPK from tblQuestion WHERE questionID = '2020PRES_Q1'), 'Bob Ross', NULL),
   ('2020PRES_Q1R2', (SELECT questionPK from tblQuestion WHERE questionID = '2020PRES_Q1'), 'Superman', NULL),
   ('2020PRES_Q2R1', (SELECT questionPK from tblQuestion WHERE questionID = '2020PRES_Q2'), 'Elvis Presely', NULL),
