@@ -7,6 +7,7 @@ Notes: Server side code base sourced from various OSU CS290 homework materials.
 
 var express = require('express');
 var mysql = require('./dbcon.js');
+const Ballot = require('./ballot.js'); //**ADDED**
 
 var app = express();
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
@@ -27,7 +28,17 @@ app.set('port', 20067);
 * Select all voting items for review.
 */
 app.get('/review', function(req, res) {
-	var context = {};
+	//var context = {};
+	
+	var ballot = new Ballot.Ballot("fakeBallotName", "fakeUsername");
+	var options = ["Bob Ross", "Superman"];
+	ballot.addVotingItem(new Ballot.VotingItem("Governor", options, 0));
+	ballot.addVotingItem(new Ballot.VotingItem("Senator", options, 0));
+	ballot.addVotingItem(new Ballot.VotingItem("3rd District Representative", options, 0));
+	
+	//console.log(ballot.getVotingItemByNum(1));
+	
+	/*
 	mysql.pool.query('SELECT * FROM _____', function(err, rows, fields){
 		if(err){
 			next(err);
@@ -45,6 +56,9 @@ app.get('/review', function(req, res) {
     
 		res.render('review', ballot);
 	});
+	*/
+	
+	res.render('review', ballot);
 });
 
 
