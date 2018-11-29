@@ -42,6 +42,10 @@ app.get('/overview', function(req, res) {
 * Select all voting items for review.
 */
 app.get('/review', function(req, res, next) {
+
+	var context = {};
+	// Create the ballot object here
+	var ballot = new Ballot.Ballot("newBallot", req.query['username']);
 	
 	// Start by getting just the question data for the provided election	
 	mysql.pool.query("SELECT questionPK, questionID, questionTitle, questionSubTitle, questionURL FROM tblQuestion WHERE electionFK IN ( SELECT electionPK FROM tblElection WHERE electionID = ? )", [req.query.electionID], function(err, rows, result){
@@ -50,50 +54,45 @@ app.get('/review', function(req, res, next) {
 	      next(err);
 	      return;
 	    }
-
-		// Create the ballot object here
-		var ballot = new Ballot.Ballot("newBallot", req.query['username']);
-
-		var context = {};
 		context.results = rows;
 		var numQuestions = context.results.length;
 
 		// Loop through results of the question query and create a new Voting Item for each row
+		var qCount = 0;
 		for (i = 0; i < numQuestions; i++) {
 
-	    	// For each question, get all the responses for that question
-	    	chkQuestion = context.results[i].questionPK;
+	    		// For each question, get all the responses for that question
+	    		chkQuestion = context.results[i].questionPK;
 
-	    	mysql.pool.query("SELECT t1.responsePK, t1.responseID, t1.responseTitle, t2.questionID, t2.questionTitle, t3.responseFK FROM tblResponse t1 INNER JOIN tblQuestion t2 ON t1.questionFK = t2.questionPK LEFT JOIN tblVoterToResponse t3 ON t2.questionPK = t3.questionFK AND t3.voterFK = (SELECT voterFK FROM tblUserLogin WHERE username = ?) WHERE t1.questionFK = ?", [req.query.username, chkQuestion], function(err2, rows2, result){
+	    		mysql.pool.query("SELECT t1.responsePK, t1.responseID, t1.responseTitle, t2.questionID, t2.questionTitle, t3.responseFK FROM tblResponse t1 INNER JOIN tblQuestion t2 ON t1.questionFK = t2.questionPK LEFT JOIN tblVoterToResponse t3 ON t2.questionPK = t3.questionFK AND t3.voterFK = (SELECT voterFK FROM tblUserLogin WHERE username = ?) WHERE t1.questionFK = ?", [req.query.username, chkQuestion], function(err2, rows2, result){
 			    
 			    if(err){
 			      next(err);
 			      return;
 			    }
+			    context.results[qCount].options = rows2;
+			    numResponses = rows2.length;
+			    responseAry = [];
 
-			    var context = {};
-				context.results = rows2;
-				numResponses = context.results.length;
-				responseAry = [];
+			    // Populate responseAry with the results from query
+			    //for (j = 0; j < numResponses; j++) {
+				//responseAry[j] = context.results[i].options[j].responseTitle;
+			    //}
 
-				// Populate responseAry with the results from query
-				for (j = 0; j < numResponses; j++) {
-					responseAry[j] = context.results[j].responseTitle;
-				}
-
-				// Create the voting item and add to ballot
-				ballot.addVotingItem(new Ballot.VotingItem(context.results[0].questionTitle, responseAry, 0));
+			    // Create the voting item and add to ballot
+			    //ballot.addVotingItem(new Ballot.VotingItem(context.options[0].questionTitle, responseAry, 0));
 
 
-				// Do something with the data we have from tblVoterToResponse to show the selected value
+			    // Do something with the data we have from tblVoterToResponse to show the selected value
+			    //options[context[i].selected].selected = "selected";
 
-
-		    });
-
+			    qCount++;
+			    if (qCount >= numQuestions) {
+				//res.render('review', ballot);
+				res.render('review', context);
+			    }
+		       });
 		}
-			
-	//res.render('review', ballot);
-	res.render('review', context); 
 	});
 	
 });
