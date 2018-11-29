@@ -24,6 +24,20 @@ app.set('view engine', 'handlebars');
 app.set('port', 20067);
 
 
+app.get('/vote', function(req, res) {
+	
+	
+	res.render('vote', ballot);
+}
+
+app.get('/overview', function(req, res) {
+	
+	
+	
+	res.render('overview', ballot);
+}
+
+
 /*
 * Select all voting items for review.
 */
