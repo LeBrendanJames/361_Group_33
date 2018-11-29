@@ -28,21 +28,20 @@ app.get('/vote', function(req, res) {
 	
 	
 	res.render('vote', ballot);
-}
+});
 
 app.get('/overview', function(req, res) {
 	
 	
 	
 	res.render('overview', ballot);
-}
+});
 
 
 /*
 * Select all voting items for review.
 */
 app.get('/review', function(req, res) {
-	//var context = {};
 	
 	var ballot = new Ballot.Ballot("fakeBallotName", "fakeUsername");
 	var options = ["Bob Ross", "Superman"];
@@ -50,29 +49,30 @@ app.get('/review', function(req, res) {
 	ballot.addVotingItem(new Ballot.VotingItem("Senator", options, 0));
 	ballot.addVotingItem(new Ballot.VotingItem("3rd District Representative", options, 0));
 	
-	//console.log(ballot.getVotingItemByNum(1));
+	//console.log("req.query[username] = " + req.query['username']);
+
 	
-	/*
-	mysql.pool.query('SELECT * FROM _____', function(err, rows, fields){
-		if(err){
-			next(err);
-			return;
-		}
+	mysql.pool.query('SELECT t1.questionID, t1.questionTitle, t1.questionURL, t2.responsePK, t2.responseID, t2.responseTitle, t2.responseSubTitle, t3.responseFK, t3.writeInResponse FROM tblQuestion t1 LEFT JOIN tblResponse t2 ON t1.questionPK = t2.questionFK LEFT JOIN tblVoterToResponse t3 ON t1.questionPK = t3.questionFK AND t3.voterFK = (SELECT voterFK FROM tblUserLogin WHERE username = ?)',
+	req.query['username'], function(err, rows, fields){
 		rowJSON = JSON.parse(JSON.stringify(rows));
+		console.log(rowJSON);
 		
-		// Create ballot object 
-		ballot = new ballot(req.ballotName, req.username);
+		// **FILL BALLOT WITH RESPONSE IN HERE**
+		//var ballot = new Ballot.Ballot("newBallot", req.query['username']);
 		
-		// Add each row from SQL SELECT as a voting item in ballot object
-		for (int i = 0; i < rowJSON.size(); i++){
-			ballot.addVotingItem(rowJSON[i]);
-		}
-    
-		res.render('review', ballot);
+		// Each row returned by query is a response option. 
+		// They each have a 'questionID'. Every unique questionID should be made into a VotingItem:
+			// ballot.addVotingItem(questionID, NULL, 0) // This creates a voting item with name = questionID, options and choice blank
+		// Then, each response option (row) should be appended to the empty options array for the correct VotingItem
+			// For example, the first row has questionID = '2018MID_Q1' and responseID = '2018MID_Q1R1', so that responseID should be added to the '2018MID_Q1' VotingItem
+			// ballot.votingItems[0].options.append(responseID) is the idea, although there will be some work to figure out the correct index for votingItems 
+
+		// Once that's done, we should have a full ballot object, which will be passed in res.render, below.
+		
+		
+		res.render('review', ballot); //**STILL USING HARD-CODED BALLOT CREATED AT TOP OF FUNCTION FOR NOW**
 	});
-	*/
 	
-	res.render('review', ballot);
 });
 
 
