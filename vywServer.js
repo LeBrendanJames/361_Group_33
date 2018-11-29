@@ -44,7 +44,7 @@ app.get('/overview', function(req, res) {
 app.get('/review', function(req, res, next) {
 	
 	// Start by getting just the question data for the provided election	
-	mysql.pool.query("SELECT questionPK, questionID, questionTitle, questionSubTitle, questionURL FROM tblQuestion WHERE electionFK = ( SELECT electionPK FROM tblElection WHERE electionID = ? )", [req.query.electionID], function(err, rows, result){
+	mysql.pool.query("SELECT questionPK, questionID, questionTitle, questionSubTitle, questionURL FROM tblQuestion WHERE electionFK IN ( SELECT electionPK FROM tblElection WHERE electionID = ? )", [req.query.electionID], function(err, rows, result){
 	    
 	    if(err){
 	      next(err);
