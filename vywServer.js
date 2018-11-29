@@ -64,7 +64,7 @@ app.get('/review', function(req, res, next) {
 	    	// For each question, get all the responses for that question
 	    	chkQuestion = context.results[i].questionPK;
 
-	    	mysql.pool.query("SELECT t1.responseID, t1.responseTitle, t2.questionID, t2.questionTitle FROM tblResponse t1 INNER JOIN tblQuestion t2 ON t1.questionFK = t2.questionPK WHERE t1.questionFK = ?", [chkQuestion], function(err2, rows2, result){
+	    	mysql.pool.query("SELECT t1.responsePK, t1.responseID, t1.responseTitle, t2.questionID, t2.questionTitle, t3.responseFK FROM tblResponse t1 INNER JOIN tblQuestion t2 ON t1.questionFK = t2.questionPK LEFT JOIN tblVoterToResponse t3 ON t2.questionPK = t3.questionFK AND t3.voterFK = (SELECT voterFK FROM tblUserLogin WHERE username = ?) WHERE t1.questionFK = ?", [req.query.username, chkQuestion], function(err2, rows2, result){
 			    
 			    if(err){
 			      next(err);
@@ -84,12 +84,16 @@ app.get('/review', function(req, res, next) {
 				// Create the voting item and add to ballot
 				ballot.addVotingItem(new Ballot.VotingItem(context.results[0].questionTitle, responseAry, 0));
 
+
+				// Do something with the data we have from tblVoterToResponse to show the selected value
+
+
 		    });
 
 		}
 			
-		res.render('review', ballot); 
-		});
+	res.render('review', ballot); 
+	});
 	
 });
 
