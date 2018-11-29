@@ -92,7 +92,8 @@ app.get('/review', function(req, res, next) {
 
 		}
 			
-	res.render('review', ballot); 
+	//res.render('review', ballot);
+	res.render('review', context); 
 	});
 	
 });
