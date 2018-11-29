@@ -41,6 +41,8 @@
   position: absolute;
   width: 350 px;
   padding: 10px;
+  word-wrap: break-word;
+  max-width: 225px;
 }
 
 .main-content {
