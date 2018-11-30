@@ -21,14 +21,57 @@ app.use(express.static(path.resolve(__dirname, 'public')));
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
-app.set('port', 20067);
+app.set('port', 20068);
 
 
-app.get('/vote', function(req, res) {
+app.get('/vote', function(req, res, next) {
 	
+	// Start by getting just the question data for the provided election	
+	mysql.pool.query("SELECT questionPK, questionID, questionTitle, questionSubTitle, questionURL FROM tblQuestion WHERE questionID = ?", [req.query.questionID], function(err, rows, result){
+	    
+		if(err){
+	      next(err);
+	      return;
+	    }
+
+		// Create the ballot object here
+		var ballot = new Ballot.Ballot("newBallot", req.query['username']);
+
+		var context = {};
+		context.results = rows;
+
+		// For each question, get all the responses for that question
+		chkQuestion = context.results[0].questionPK;
+
+		mysql.pool.query("SELECT t1.responsePK, t1.responseID, t1.responseTitle, t2.questionID, t2.questionTitle, t3.responseFK FROM tblResponse t1 INNER JOIN tblQuestion t2 ON t1.questionFK = t2.questionPK LEFT JOIN tblVoterToResponse t3 ON t2.questionPK = t3.questionFK AND t3.voterFK = (SELECT voterFK FROM tblUserLogin WHERE username = ?) WHERE t1.questionFK = ?", [req.query.username, chkQuestion], function(err2, rows2, result){
+			
+			if(err){
+			  next(err);
+			  return;
+			}
+
+			var context = {};
+			context.results = rows2;
+			numResponses = context.results.length;
+			responseAry = [];
+
+			// Populate responseAry with the results from query
+			for (j = 0; j < numResponses; j++) {
+				responseAry[j] = context.results[j].responseTitle;
+			}
+
+			// Create the voting item and add to ballot
+			ballot.addVotingItem(new Ballot.VotingItem(context.results[0].questionTitle, responseAry, 0));
+
+
+		});
+			
+	res.render('vote', ballot); 
+	});
 	
-	res.render('vote', ballot);
 });
+
+
 
 app.get('/overview', function(req, res) {
 
