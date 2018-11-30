@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="voteStyle.css" rel="stylesheet" type="text/css">
+    <title>Review Votes</title>
+  </head>
+  <body>
+    <div class="header"><h1>Vote Your Way</h1></div>
+    <div class="sidebar">
+      <ul>{{#each results}}
+		<li>{{name}}
+		<!-- <li><a href="localhost/vote.html?item={{id}}">{{name}}</a><br> -->
+      {{/each}}</ul>
+    </div>
+    <div class="main-content">
+      <hr>
+      {{#each results}}
+        <!-- The info box which tells the user about the vote -->
+		<!-- these indexes are off by 1, possible solutions here: -->
+		<!-- https://stackoverflow.com/questions/22103989/adding-offset-to-index-when-looping-through-items-in-handlebars -->
+        <div class="info-box">Item {{questionID}}: {{questionTitle}} </div> <!-- Will probably want to change what we show here -->
+        {{#each options}}
+		  {{#if this.selected }}
+		    <div class="vote-item selected">
+		    {{responseTitle}} {{responseSubTitle}}
+		    </div>
+		  {{else}}
+		    <div class="vote-item">
+		    {{responseTitle}} {{responseSubTitle}}
+		    </div>
+		  {{/if}}
+<!-- Brendan: option.selected should be either "selected" or ""
+        <div class="vote-item selected">
+	  <strong>Bob Ross</strong> Dempublican
+        </div>
+        <div class="vote-item ">
+	  <strong>Superman</strong> Republicrat
+        </div>
+        <div class="vote-item ">
+	  <strong>Mister Rogers</strong> Independent
+        </div>
+        <div class="vote-item {{option.selected}}">
+	  <strong>{{option.name}}</strong> {{option.party}}
+        </div> -->
+        {{/each}}
+      <hr>
+      {{/each}}
+    </div>
+  </body>
+</html>
