@@ -12,21 +12,11 @@
       <!-- The dots will change color depending on whether a vote has been cast for that item -->
       <ul>{{#each votingItems}}
 	    <li>{{name}}
-	<!-- <span class="dot voted-true" onclick="" id="{{ballotItem.id}}"></span>
-	<a href="localhost/vote.html?item={{ballotItem.id}}">Governor</a><br>
-	<span class="dot voted-false" onclick="" id="{{ballotItem.id}}"></span>
-	<a href="localhost/vote.html?item={{ballotItem.id}}">Senator</a><br>
-	<span class="dot voted-true" onclick="" id="{{ballotItem.id}}"></span>
-	<a href="localhost/vote.html?item={{ballotItem.id}}">3rd District Representative</a><br>
-	<span class="dot voted-false" onclick="" id="{{ballotItem.id}}"></span>
-	<a href="localhost/vote.html?item={{ballotItem.id}}">Measure 999</a><br>
-	<span class="dot voted-{{ballotItem.voted}}" onclick="" id="{{ballotItem.id}}"></span>
-	<a href="localhost/vote.html?item={{ballotItem.id}}">{{ballotItem.name}}</a><br> -->
       {{/each}}</ul>
     </div>
     <div class="main-content">
-      <!-- The info box which tells the user about the vote -->
 	  {{#each votingItems}}
+	  <!-- The info box which tells the user about the vote -->
 	  <div class="info-box">{{this.name}}</div>
 	  {{#each options}}
 	    {{#if this.selected}}
@@ -40,23 +30,6 @@
 		{{/if}}
 	  {{/each}}
 	  {{/each}}
-
-      <!-- Clicking the box calls a javascript function which changes -->
-      <!-- the look of the vote and stores the selected option -->
-      <!-- {{#each option}} -->
-      <!--<div class="vote-item" onclick="chooseVote(0)">
-	<strong>Bob Ross</strong> Dempublican
-      </div>
-      <div class="vote-item" onclick="chooseVote(1)">
-	<strong>Superman</strong> Republicrat
-      </div>
-      <div class="vote-item" onclick="chooseVote(2)">
-	<strong>Mister Rogers</strong> Independent
-      </div>
-      <div class="vote-item" onclick="chooseVote({{option.id}})">
-	<strong>{{option.name}}</strong> {{option.party}}
-      </div>-->
-      <!-- {{/each}} -->
       <button>Previous</button>
       <button>Next</button>
       <button>Save and Log Out</button>
