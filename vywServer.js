@@ -21,7 +21,7 @@ app.use(express.static(path.resolve(__dirname, 'public')));
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
-app.set('port', 20068);
+app.set('port', 20067);
 
 
 app.get('/vote', function(req, res, next) {
