@@ -31,11 +31,46 @@ app.get('/vote', function(req, res) {
 });
 
 app.get('/overview', function(req, res) {
-	
-	
-	
-	res.render('overview', ballot);
+
+	var context = {};
+  var ballot = new Ballot.Ballot("newBallot", req.query['username']);
+
+  	// Start by getting just the question data for the provided election
+  	mysql.pool.query("SELECT questionPK, questionID, questionTitle, questionSubTitle, questionURL FROM tblQuestion WHERE electionFK IN ( SELECT electionPK FROM tblElection WHERE electionID = ? )", [req.query.electionID], function(err, rows, result){
+
+  	    if(err){
+  	      next(err);
+  	      return;
+  	    }
+  		context.results = rows;
+  		var numQuestions = context.results.length;
+
+  		// Loop through results of the question query and create a new Voting Item for each row
+  		var qCount = 0;
+  		for (i = 0; i < numQuestions; i++) {
+
+  	    		// For each question, get all the responses for that question
+  	    		chkQuestion = context.results[i].questionPK;
+
+  	    		mysql.pool.query("SELECT t1.responsePK, t1.responseID, t1.responseTitle, t2.responseSubTitle, t2.questionID, t2.questionTitle, t3.responseFK FROM tblResponse t1 INNER JOIN tblQuestion t2 ON t1.questionFK = t2.questionPK LEFT JOIN tblVoterToResponse t3 ON t2.questionPK = t3.questionFK AND t3.voterFK = (SELECT voterFK FROM tblUserLogin WHERE username = ?) WHERE t1.questionFK = ?", [req.query.username, chkQuestion], function(err2, rows2, result){
+
+  			    if(err){
+  			      next(err);
+  			      return;
+  			    }
+  			    context.results[qCount].options = rows2;
+  			    numResponses = rows2.length;
+  			    responseAry = [];
+            qCount++;
+			    if (qCount >= numQuestions) {
+
+				res.render('overview', context);
+			    }
+          });
+          }
+	});
 });
+
 
 
 /*
